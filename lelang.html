@@ -1,0 +1,3062 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>FAZZXXY AUCTION</title>
+
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:#060b11;color:#edf4fa;font-family:Arial,sans-serif}
+body{padding-bottom:30px}
+button,input,textarea{font-family:inherit}
+button{cursor:pointer}
+button:active{transform:scale(.97)}
+
+.header{
+ position:sticky;top:0;z-index:100;height:58px;
+ display:flex;align-items:center;justify-content:space-between;
+ padding:0 14px;background:#09121c;border-bottom:1px solid #1b2b3b
+}
+.logo{font-size:18px;font-weight:1000;letter-spacing:1px}
+.logo span{display:block;color:#4da3ff;font-size:8px;letter-spacing:2px}
+.live{padding:7px 9px;border-radius:8px;background:#102519;color:#53e08a;font-size:9px;font-weight:900}
+
+.container{width:100%;max-width:650px;margin:auto;padding:10px}
+
+.balance{
+ padding:14px;margin-bottom:10px;border:1px solid #203448;
+ border-radius:15px;background:linear-gradient(145deg,#0d1823,#09111a)
+}
+.label{color:#71859a;font-size:9px;font-weight:900;letter-spacing:.5px}
+.money{margin-top:4px;font-size:29px;font-weight:1000}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}
+.stat{padding:8px;text-align:center;border-radius:9px;background:#0a121b;border:1px solid #1c2d3f}
+.stat b{display:block;margin-top:4px;font-size:11px}
+
+.nav{
+ position:sticky;top:58px;z-index:90;
+ display:grid;grid-template-columns:repeat(5,1fr);gap:5px;
+ padding:7px;margin-bottom:10px;border:1px solid #1b2b3b;
+ border-radius:13px;background:#09121b
+}
+.nav button{
+ min-height:39px;border:0;border-radius:9px;background:#0d1822;
+ color:#71859a;font-size:8px;font-weight:900
+}
+.nav button.active{background:#1a4c78;color:white;box-shadow:inset 0 0 0 1px #4da3ff}
+
+.page{display:none}
+.page.active{display:block}
+
+.card{
+ margin-bottom:10px;padding:13px;border:1px solid #1e3042;
+ border-radius:15px;background:#0b141e;box-shadow:0 8px 20px rgba(0,0,0,.18)
+}
+.title{font-size:12px;font-weight:1000}
+.sub{margin-top:4px;color:#6f8296;font-size:9px;line-height:1.5}
+
+.item{
+ position:relative;display:flex;align-items:center;justify-content:center;
+ min-height:170px;margin-bottom:8px;overflow:hidden;border-radius:13px;
+ background:radial-gradient(circle at center,#18334b 0%,#0b151f 65%)
+}
+.itemIcon{
+ width:110px;height:110px;display:flex;align-items:center;justify-content:center;
+ border-radius:24px;background:#122536;border:2px solid #31516c;
+ font-size:58px;box-shadow:0 15px 35px rgba(0,0,0,.3)
+}
+.rarity{
+ position:absolute;top:10px;left:10px;padding:5px 8px;border-radius:7px;
+ background:#182638;color:#79baff;font-size:8px;font-weight:1000
+}
+.name{text-align:center;font-size:18px;font-weight:1000}
+.price{margin-top:5px;font-size:29px;font-weight:1000;text-align:center}
+
+.info{margin-top:13px;border-top:1px solid #1c2c3b}
+.infoRow{
+ display:flex;align-items:center;justify-content:space-between;
+ padding:9px 0;border-bottom:1px solid #162532;font-size:9px
+}
+.infoRow span{color:#71859a}
+
+.timer{height:7px;margin-top:14px;overflow:hidden;border-radius:10px;background:#172532}
+.bar{width:100%;height:100%;border-radius:10px;background:#4da3ff;transition:width .25s linear}
+.timerText{display:flex;justify-content:space-between;margin-top:6px;color:#71859a;font-size:9px;font-weight:900}
+
+.timerText span:last-child{color:#4da3ff}
+
+.quick{
+ display:grid !important;
+ grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+ gap:6px;
+ margin-top:7px;
+ width:100%;
+}     
+
+.quick button{
+ width:100% !important;
+ min-width:0 !important;
+ height:35px !important;
+ padding:0 !important;
+ border:1px solid #29445d !important;
+ border-radius:10px !important;
+ background:#0d1a27 !important;
+ color:#83bfff !important;
+ font-size:10px !important;
+ font-weight:1000 !important;
+}
+
+.bidRow{
+ display:grid;
+ grid-template-columns:1fr 120px;
+ gap:8px;
+ margin-top:10px;
+}
+
+input,textarea{
+ width:100%;
+ padding:13px;
+ outline:none;
+ border:1px solid #294057;
+ border-radius:10px;
+ background:#071019;
+ color:white;
+ font-size:14px;
+}
+
+textarea{
+ resize:vertical;
+ min-height:70px;
+}
+
+input:focus,textarea:focus{
+ border-color:#4da3ff;
+}
+
+.bidRow button,.primary{
+ border:0;
+ border-radius:10px;
+ background:#4da3ff;
+ color:white;
+ font-size:16px;
+ font-weight:1000;
+ min-height:50px;
+ padding:0 15px;
+}
+.participant{
+ display:flex;align-items:center;justify-content:space-between;gap:8px;
+ padding:9px;margin-top:6px;border-radius:10px;background:#09121b;
+ border:1px solid #1b2c3d;font-size:9px
+}
+.person{display:flex;align-items:center;gap:8px;min-width:0}
+.avatar{
+ width:30px;height:30px;flex:none;display:flex;align-items:center;
+ justify-content:center;border-radius:50%;background:#16283a;
+ border:1px solid #31516d;font-size:17px
+}
+.person span{overflow:hidden;white-space:nowrap;text-overflow:ellipsis;font-weight:900}
+.history{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:1px solid #172734;font-size:9px}
+.empty{padding:16px 8px;text-align:center;color:#586d81;font-size:9px}
+
+.result{display:none;text-align:center;padding:20px 13px}
+.resultIcon{font-size:42px}
+.resultTitle{margin-top:8px;font-size:17px;font-weight:1000}
+.resultText{margin-top:6px;color:#7d90a4;font-size:9px;line-height:1.5}
+.countdown{margin-top:12px;color:#4da3ff;font-size:10px;font-weight:1000}
+
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.sectionTitle{grid-column:1/-1;margin-top:5px;padding:8px 2px 3px;color:#8da3b8;font-size:10px;font-weight:1000}
+.box{
+ position:relative;padding:12px;border:1px solid #203448;border-radius:13px;
+ background:#0b151f;text-align:center
+}
+.boxIcon{height:70px;display:flex;align-items:center;justify-content:center;font-size:42px}
+.boxName{margin-top:4px;font-size:10px;font-weight:1000}
+.boxSmall{margin-top:5px;color:#71859a;font-size:8px;line-height:1.5}
+.sellBtn{
+ width:100%;margin-top:10px;padding:9px 5px;border:0;border-radius:8px;
+ background:#1c5d89;color:white;font-size:8px;font-weight:1000
+}
+
+.profileHero{text-align:center;padding:10px}
+.profileAvatar{
+ width:88px;height:88px;margin:auto;display:flex;align-items:center;
+ justify-content:center;border-radius:50%;border:3px solid #4da3ff;
+ background:#172638;font-size:45px
+}
+.profileName{margin-top:9px;font-size:19px;font-weight:900}
+.profileTag{margin-top:3px;color:#718096;font-size:9px}
+.editBox{margin-top:12px;padding:12px;background:#09111a;border:1px solid #24364a;border-radius:13px}
+.editLabel{color:#718096;font-size:9px;font-weight:900;margin-bottom:6px}
+.avatarChoices{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:8px}
+.avatarChoice{height:40px;border:1px solid #2b4056;border-radius:9px;background:#101923;color:white;font-size:20px}
+.avatarChoice.selected{background:#173653;border-color:#4da3ff}
+.saveProfile{width:100%;margin-top:11px;padding:12px;border:0;border-radius:10px;background:#4da3ff;color:white;font-size:10px;font-weight:900}
+
+.showcaseGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.showItem{position:relative;min-height:115px;padding:9px;text-align:center;background:#09111a;border:1px solid #293c50;border-radius:13px}
+.showItemIcon{font-size:35px}.showItemName{margin-top:6px;font-size:8px;font-weight:900}
+.showItemRarity{margin-top:4px;color:#718096;font-size:8px}
+.removeShow{position:absolute;top:5px;right:5px;width:22px;height:22px;border:0;border-radius:50%;background:#291923;color:#ff7788}
+.addShow{width:100%;margin-top:10px;padding:12px;border:1px dashed #38536d;border-radius:10px;background:#0a121b;color:#8295aa;font-size:10px;font-weight:900}
+.pickGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px}
+.pickItem{display:flex;align-items:center;gap:7px;padding:8px;background:#09111a;border:1px solid #293c50;border-radius:11px}
+.pickIcon{font-size:28px}.pickInfo{flex:1;min-width:0}.pickName{font-size:9px;font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pickRarity{margin-top:3px;color:#718096;font-size:8px}
+.pickButton{border:0;border-radius:8px;padding:7px;background:#4da3ff;color:white;font-size:8px;font-weight:900}
+
+.toast{
+ position:fixed;left:50%;bottom:18px;transform:translate(-50%,130px);z-index:999;
+ padding:11px 15px;border-radius:12px;background:#172537;border:1px solid #3b536c;
+ color:white;font-size:10px;font-weight:900;transition:.25s;white-space:nowrap
+}
+
+/* LOGIN */
+#loginScreen{
+ position:fixed;inset:0;z-index:5000;background:#060b11;
+ display:flex;align-items:center;justify-content:center;padding:20px
+}
+.loginBox{
+ width:100%;max-width:390px;padding:22px;border:1px solid #294057;
+ border-radius:20px;background:linear-gradient(145deg,#0d1823,#09111a);
+ box-shadow:0 20px 60px rgba(0,0,0,.5)
+}
+.loginLogo{text-align:center;font-size:25px;font-weight:1000;letter-spacing:2px}
+.loginLogo span{display:block;margin-top:4px;color:#4da3ff;font-size:9px;letter-spacing:3px}
+.loginTitle{text-align:center;margin:25px 0 15px;font-size:16px;font-weight:1000}
+.loginInput{margin-bottom:9px}
+.loginBtn{width:100%;padding:13px;margin-top:4px;border:0;border-radius:10px;background:#4da3ff;color:white;font-weight:1000}
+.secondaryBtn{width:100%;padding:11px;margin-top:8px;border:1px solid #29445d;border-radius:10px;background:#0d1a27;color:#8dc4ff;font-size:10px;font-weight:900}
+.loginSwitch{text-align:center;margin-top:14px;color:#71859a;font-size:9px}
+.loginSwitch button{border:0;background:none;color:#4da3ff;font-weight:900}
+.loginError{min-height:15px;margin:7px 0;text-align:center;color:#ff7280;font-size:9px;font-weight:900}
+
+.logoutBtn{width:100%;padding:11px;border:0;border-radius:9px;background:#291923;color:#ff8795;font-size:9px;font-weight:900}
+
+/* SEARCH */
+.searchBox{display:flex;gap:7px;margin-top:12px}
+.searchBox input{flex:1}
+.searchBox button{width:80px;border:0;border-radius:9px;background:#4da3ff;color:white;font-weight:900}
+.searchResult{margin-top:10px}
+.publicProfile{text-align:center;padding:10px}
+.publicAvatar{
+ width:75px;height:75px;margin:auto;border-radius:50%;display:flex;
+ align-items:center;justify-content:center;background:#172638;
+ border:2px solid #4da3ff;font-size:38px
+}
+.publicName{margin-top:8px;font-size:18px;font-weight:1000}
+.publicBio{margin-top:6px;color:#8193a6;font-size:9px;line-height:1.5}
+.publicShowcase{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}
+.publicItem{padding:9px;border:1px solid #24384d;border-radius:10px;background:#09121b;text-align:center}
+.publicItem div:first-child{font-size:30px}
+.publicItem b{display:block;margin-top:5px;font-size:8px}
+.publicItem small{display:block;margin-top:3px;color:#71859a;font-size:7px}
+
+@media(max-width:380px){
+ .money{font-size:24px}.price{font-size:24px}
+ .item{height:190px}.itemIcon{width:95px;height:95px;font-size:48px}
+ .nav button{font-size:7px}
+}
+.borderChoices{
+ display:grid;
+ grid-template-columns:repeat(6,1fr);
+ gap:7px;
+ margin-top:8px;
+}
+
+.borderChoice{
+ height:45px;
+ border:1px solid #26394b;
+ border-radius:10px;
+ background:#101923;
+ font-size:22px;
+}
+
+.borderChoice.selected{
+ border:2px solid #4da3ff;
+ background:#172b3d;
+ transform:scale(1.05);
+}
+.profileAvatar.blue{
+ border:4px solid #4da3ff;
+}
+
+.profileAvatar.gold{
+ border:4px solid #ffd54a;
+}
+
+.profileAvatar.red{
+ border:4px solid #ff5268;
+}
+
+.profileAvatar.purple{
+ border:4px solid #b56cff;
+}
+
+.profileAvatar.green{
+ border:4px solid #4de08a;
+}
+
+.profileAvatar.rainbow{
+ border:4px solid transparent;
+ background:
+ linear-gradient(#172638,#172638) padding-box,
+ conic-gradient(
+  #ff4d4d,
+  #ffd54a,
+  #4de08a,
+  #4da3ff,
+  #b56cff,
+  #ff4d4d
+}
+</style>
+</head>
+
+<body>
+    
+    <audio id="bgMusic" loop>
+  <source src="lagu santai.mp3" type="audio/mpeg">
+</audio>
+
+ <button onclick="toggleMusic()" id="musicBtn"
+style="position:fixed;right:10px;bottom:10px;z-index:9999;
+padding:10px 13px;border:0;border-radius:10px;
+background:#4da3ff;color:white;font-weight:bold;">
+🎵 MUSIK 
+</button>
+
+<div id="loginScreen">
+ <div class="loginBox">
+
+  <div class="loginLogo">
+   FAZZXXY
+   <span>AUCTION</span>
+  </div>
+
+  <div class="loginTitle" id="loginTitle">MASUK KE AKUN</div>
+
+  <input class="loginInput" id="loginName" maxlength="18"
+   placeholder="Nama pengguna">
+
+  <input class="loginInput" id="loginPassword"
+   type="password" placeholder="Password">
+
+  <div class="loginError" id="loginError"></div>
+
+  <button class="loginBtn" onclick="submitLogin()" id="loginSubmit">
+   🔐 MASUK
+  </button>
+
+  <button class="secondaryBtn" onclick="toggleLoginMode()" id="modeButton">
+   ➕ BUAT AKUN BARU
+  </button>
+
+  <div class="loginSwitch">
+   Data akun tersimpan di perangkat ini.
+  </div>
+
+ </div>
+</div>
+
+<header class="header">
+ <div class="logo">FAZZXXY<span>AUCTION</span></div>
+ <div class="live">● LIVE</div>
+</header>
+
+<div class="container">
+
+<div class="balance">
+ <div class="label">SALDO 💰</div>
+ <div class="money" id="balance">Rp1.000.000</div>
+
+ <div class="stats">
+  <div class="stat"><div class="label">MENANG</div><b id="wins">0</b></div>
+  <div class="stat"><div class="label">KOLEKSI</div><b id="count">0</b></div>
+  <div class="stat"><div class="label">TERPAKAI</div><b id="spent">Rp0</b></div>
+ </div>
+</div>
+
+<div class="nav">
+ <button id="auctionBtn" class="active" onclick="showPage('auction')">🔨<br>LELANG</button>
+ <button id="itemsBtn" onclick="showPage('items')">🏷️<br>BARANG</button>
+ <button id="collectionBtn" onclick="showPage('collection')">🎒<br>KOLEKSI</button>       
+ <button id="searchBtn" onclick="showPage('search')">🔎<br>CARI</button>
+ <button id="profileBtn" onclick="showPage('profile')">👤<br>PROFIL</button>
+</div>
+
+<section id="auction" class="page active">
+
+<div class="card">
+ <div class="title">🔨 LELANG LIVE</div>
+ <div class="sub" id="round">Ronde #1</div>
+</div>
+
+<div class="card">
+ <div class="item">
+  <div class="rarity" id="rarity">LEGENDARY</div>
+  <div class="itemIcon" id="itemIcon">🚁</div>
+ </div>
+
+ <div class="name" id="itemName">Drone Pro</div>
+ <div class="sub" id="itemDesc">Drone profesional.</div>
+</div>
+
+<div class="card">
+
+ <div class="label">HARGA TERTINGGI</div>
+ <div class="price" id="price">Rp350.000</div>
+
+ <div class="info">
+  <div class="infoRow">
+   <span>Penawar tertinggi</span>
+   <b id="highest">Belum ada</b>
+  </div>
+
+  <div class="infoRow">
+   <span>Status</span>
+   <b id="status">Berlangsung</b>
+  </div>
+ </div>
+
+ <div class="timer">
+  <div class="bar" id="bar"></div>
+ </div>
+
+ <div class="timerText">
+  <span>Waktu tersisa</span>
+  <span id="time">30 detik</span>
+ </div>
+
+ <div id="bidControls">
+
+  <div class="label" style="margin-top:15px">TAWAR CEPAT</div>
+
+  <div class="quick">
+   <button onclick="quickBid(10000)">+5K</button>
+   <button onclick="quickBid(10000)">+10K</button>
+   <button onclick="quickBid(25000)">+25K</button>
+   <button onclick="quickBid(50000)">+50K</button>
+  </div>
+
+  <div class="bidRow">
+   <input id="bidInput" type="number" inputmode="numeric"
+    placeholder="Masukkan tawaran">
+   <button onclick="playerBid()">TAWAR</button>
+  </div>
+
+ </div>
+</div>
+
+<div class="card">
+ <div class="title">👥 PENAWAR</div>
+ <div id="players"><div class="empty">Belum ada penawar</div></div>
+</div>
+
+<div class="card">
+ <div class="title">📜 RIWAYAT TAWARAN</div>
+ <div id="history"><div class="empty">Belum ada tawaran</div></div>
+</div>
+
+<!-- ==================================================
+     🤖 FAZZXXY AUCTION AI ASSISTANT
+     TEMPel SEBELUM </body>
+================================================== --><style>
+
+.ai-card{
+  margin-top:10px;
+  padding:13px;
+  border:1px solid #294057;
+  border-radius:15px;
+  background:linear-gradient(145deg,#0d1823,#09111a);
+}
+
+.ai-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+}
+
+.ai-title{
+  font-size:12px;
+  font-weight:1000;
+}
+
+.ai-status{
+  padding:5px 8px;
+  border-radius:7px;
+  background:#102519;
+  color:#53e08a;
+  font-size:8px;
+  font-weight:1000;
+}
+
+.ai-text{
+  margin-top:10px;
+  padding:10px;
+  border-radius:10px;
+  background:#071019;
+  border:1px solid #1c3043;
+  color:#a9bbcc;
+  font-size:9px;
+  line-height:1.6;
+}
+
+.ai-action{
+  margin-top:9px;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:6px;
+}
+
+.ai-action button{
+  min-height:38px;
+  border:1px solid #29445d;
+  border-radius:9px;
+  background:#0d1a27;
+  color:#83bfff;
+  font-size:9px;
+  font-weight:1000;
+}
+
+.ai-action button:active{
+  transform:scale(.97);
+}
+
+.ai-reason{
+  margin-top:8px;
+  color:#71859a;
+  font-size:8px;
+  line-height:1.5;
+}
+
+.ai-loading{
+  color:#4da3ff;
+}
+
+.ai-good{
+  color:#53e08a;
+  font-weight:1000;
+}
+
+.ai-warning{
+  color:#ffd54a;
+  font-weight:1000;
+}
+
+.ai-danger{
+  color:#ff7280;
+  font-weight:1000;
+}
+
+</style><!-- AI CARD --><div class="ai-card" id="aiCard">  <div class="ai-head"><div class="ai-title">
+  🤖 AI ASISTEN LELANG
+</div>
+
+<div class="ai-status">
+  ● AKTIF
+</div>
+
+  </div>  <div class="ai-text" id="aiText">AI sedang menganalisis lelang...
+
+  </div>  <div class="ai-action"><button onclick="auctionAI()">
+  🤖 ANALISIS
+</button>
+
+<button onclick="aiBidAdvice()">
+  💰 SARAN TAWAR
+</button>
+
+<button onclick="aiExplain()">
+  💡 PENJELASAN
+</button>
+
+  </div>  <div class="ai-reason" id="aiReason">AI menggunakan harga barang, harga tertinggi,
+waktu tersisa dan saldo untuk membuat saran.
+
+  </div></div><script>
+
+/* ==================================================
+   🤖 AI AUCTION ENGINE
+================================================== */
+
+function auctionAI(){
+
+  const box=
+    document.getElementById("aiText");
+
+  const reason=
+    document.getElementById("aiReason");
+
+
+  if(!running){
+
+    box.innerHTML=
+      "⏱️ <span class='ai-warning'>Lelang sedang tidak berlangsung.</span>";
+
+    reason.innerText=
+      "Tunggu ronde berikutnya dimulai.";
+
+    return;
+
+  }
+
+
+  if(!currentItem){
+
+    box.innerText=
+      "Barang belum tersedia.";
+
+    return;
+
+  }
+
+
+  const base=
+    Number(currentItem.price||0);
+
+  const price=
+    Number(currentPrice||0);
+
+  const moneyLeft=
+    Number(balance||0);
+
+  const time=
+    Number(seconds||0);
+
+
+  const ratio=
+    price/base;
+
+
+  let advice="";
+  let explanation="";
+
+
+  /* =========================
+     ANALISIS HARGA
+  ========================= */
+
+  if(ratio<=0.85){
+
+    advice=
+      "🔥 <span class='ai-good'>TAWAR</span>";
+
+    explanation=
+      "Harga masih sangat rendah dibanding harga dasar barang.";
+
+  }
+
+  else if(ratio<=1.05){
+
+    advice=
+      "🟢 <span class='ai-good'>TAWAR PELAN</span>";
+
+    explanation=
+      "Harga masih cukup dekat dengan harga dasar.";
+
+  }
+
+  else if(ratio<=1.30){
+
+    advice=
+      "🟡 <span class='ai-warning'>HATI-HATI</span>";
+
+    explanation=
+      "Harga sudah mulai naik cukup tinggi.";
+
+  }
+
+  else if(ratio<=1.60){
+
+    advice=
+      "🟠 <span class='ai-warning'>SEBAIKNYA TUNGGU</span>";
+
+    explanation=
+      "Harga sudah cukup jauh di atas harga dasar.";
+
+  }
+
+  else{
+
+    advice=
+      "🔴 <span class='ai-danger'>BERHENTI</span>";
+
+    explanation=
+      "Harga sudah terlalu tinggi dibanding harga dasar.";
+
+  }
+
+
+  /* =========================
+     ANALISIS SALDO
+  ========================= */
+
+  const balanceRatio=
+    price/moneyLeft;
+
+
+  if(balanceRatio>=0.75){
+
+    advice=
+      "🔴 <span class='ai-danger'>JANGAN TERLALU AGRESIF</span>";
+
+    explanation+=
+      " Tawaran sekarang menggunakan sebagian besar saldo kamu.";
+
+  }
+
+
+  /* =========================
+     ANALISIS WAKTU
+  ========================= */
+
+  if(time<=5){
+
+    explanation+=
+      " Waktu tinggal "+time+" detik, jadi keputusan harus cepat.";
+
+  }
+
+  else if(time<=10){
+
+    explanation+=
+      " Waktu mulai sedikit, perhatikan tawaran lawan.";
+
+  }
+
+
+  /* =========================
+     HASIL
+  ========================= */
+
+  box.innerHTML=
+    "<b>"+advice+"</b><br><br>"+
+    "Barang: <b>"+escapeHTML(currentItem.name)+"</b><br>"+
+    "Harga sekarang: <b>"+money(price)+"</b><br>"+
+    "Harga dasar: <b>"+money(base)+"</b><br>"+
+    "Waktu: <b>"+time+" detik</b><br>"+
+    "Saldo: <b>"+money(moneyLeft)+"</b>";
+
+
+  reason.innerText=
+    explanation;
+
+}
+
+
+/* ==================================================
+   💰 SARAN JUMLAH TAWAR
+================================================== */
+
+function aiBidAdvice(){
+
+  const box=
+    document.getElementById("aiText");
+
+  const reason=
+    document.getElementById("aiReason");
+
+
+  if(!running||!currentItem){
+
+    box.innerText=
+      "⏱️ Lelang belum aktif.";
+
+    return;
+
+  }
+
+
+  const base=
+    Number(currentItem.price||0);
+
+  const price=
+    Number(currentPrice||0);
+
+  const maxSafe=
+    Math.floor(base*1.25);
+
+  const nextSmall=
+    price+Math.max(
+      5000,
+      Math.floor(base*.03)
+    );
+
+
+  if(nextSmall>balance){
+
+    box.innerHTML=
+      "💸 <span class='ai-danger'>SALDO TIDAK CUKUP</span>";
+
+    reason.innerText=
+      "Jangan memaksakan tawaran melebihi saldo.";
+
+    return;
+
+  }
+
+
+  if(price>=maxSafe){
+
+    box.innerHTML=
+      "🛑 <span class='ai-danger'>BERHENTI MENAWAR</span>";
+
+    reason.innerText=
+      "Harga sudah mencapai batas aman sekitar 125% dari harga dasar.";
+
+    return;
+
+  }
+
+
+  box.innerHTML=
+    "💰 <span class='ai-good'>SARAN TAWAR</span><br><br>"+
+    "Coba tawar sekitar:<br>"+
+    "<b style='font-size:17px'>"+
+    money(nextSmall)+
+    "</b>";
+
+
+  reason.innerText=
+    "AI menyarankan kenaikan kecil agar saldo tidak cepat habis.";
+
+}
+
+
+/* ==================================================
+   💡 PENJELASAN
+================================================== */
+
+function aiExplain(){
+
+  const box=
+    document.getElementById("aiText");
+
+  const reason=
+    document.getElementById("aiReason");
+
+
+  if(!running||!currentItem){
+
+    box.innerText=
+      "Belum ada lelang aktif.";
+
+    return;
+
+  }
+
+
+  const base=
+    Number(currentItem.price||0);
+
+  const price=
+    Number(currentPrice||0);
+
+  const ratio=
+    price/base;
+
+
+  let level="";
+
+  if(ratio<1){
+
+    level=
+      "Harga masih di bawah harga dasar.";
+
+  }
+
+  else if(ratio<1.25){
+
+    level=
+      "Harga masih relatif dekat dengan harga dasar.";
+
+  }
+
+  else if(ratio<1.5){
+
+    level=
+      "Harga sudah cukup tinggi.";
+
+  }
+
+  else{
+
+    level=
+      "Harga sudah sangat tinggi.";
+
+  }
+
+
+  box.innerHTML=
+    "🤖 <b>ANALISIS AI</b><br><br>"+
+    "📦 Barang: "+escapeHTML(currentItem.name)+"<br>"+
+    "💰 Harga dasar: "+money(base)+"<br>"+
+    "🔥 Harga sekarang: "+money(price)+"<br>"+
+    "📈 Perbandingan: "+Math.round(ratio*100)+"%<br>"+
+    "⏱️ Waktu: "+seconds+" detik<br>"+
+    "💵 Saldo: "+money(balance);
+
+
+  reason.innerText=
+    level+
+    " AI menyarankan kamu mempertimbangkan harga dan saldo sebelum menaikkan tawaran.";
+
+}
+
+
+/* ==================================================
+   🔄 AI OTOMATIS
+   AI menganalisis setiap beberapa detik
+================================================== */
+
+let aiAutoTimer=null;
+
+
+function startAIAuto(){
+
+  clearInterval(aiAutoTimer);
+
+
+  aiAutoTimer=
+    setInterval(function(){
+
+      if(!running||!currentItem)
+        return;
+
+
+      const box=
+        document.getElementById("aiText");
+
+
+      const base=
+        Number(currentItem.price||0);
+
+      const price=
+        Number(currentPrice||0);
+
+      const ratio=
+        price/base;
+
+
+      if(ratio>1.6){
+
+        box.innerHTML=
+          "🔴 <span class='ai-danger'>AI: HARGA SUDAH TINGGI</span><br>"+
+          "Pertimbangkan untuk berhenti menawar.";
+
+      }
+
+      else if(ratio>1.3){
+
+        box.innerHTML=
+          "🟡 <span class='ai-warning'>AI: HATI-HATI</span><br>"+
+          "Harga mulai jauh dari harga dasar.";
+
+      }
+
+      else if(ratio<=1.05){
+
+        box.innerHTML=
+          "🟢 <span class='ai-good'>AI: MOMEN CUKUP BAGUS</span><br>"+
+          "Harga masih dekat dengan harga dasar.";
+
+      }
+
+    },5000);
+
+}
+
+
+/* ==================================================
+   🔧 MULAI AI
+================================================== */
+
+startAIAuto();
+
+
+/* ==================================================
+   🔄 UPDATE AI SAAT RONDE BERUBAH
+================================================== */
+
+const oldStartAuction=
+  window.startAuction;
+
+
+window.startAuction=
+  function(){
+
+    oldStartAuction();
+
+    setTimeout(function(){
+
+      if(typeof auctionAI==="function"){
+        auctionAI();
+      }
+
+    },300);
+
+  };
+
+
+const oldNextAuction=
+  window.nextAuction;
+
+
+window.nextAuction=
+  function(){
+
+    oldNextAuction();
+
+    setTimeout(function(){
+
+      if(typeof auctionAI==="function"){
+        auctionAI();
+      }
+
+    },300);
+
+  };
+
+
+console.log(
+  "FAZZXXY AI ASSISTANT AKTIF"
+);
+
+</script>
+
+<div class="card result" id="result">
+ <div class="resultIcon" id="resultIcon">🏆</div>
+ <div class="resultTitle" id="resultTitle">KAMU MENANG!</div>
+ <div class="resultText" id="resultText"></div>
+ <div class="countdown" id="nextCountdown"></div>
+</div>
+
+</section>
+
+
+<section id="items" class="page">
+
+<div class="card">
+ <div class="title">🏷️ BARANG LELANG</div>
+ <div class="sub">Barang yang tersedia dalam sistem lelang.</div>
+</div>
+
+<div class="grid" id="itemGrid"></div>
+
+</section>
+
+
+<section id="collection" class="page">
+
+<div class="card">
+ <div class="title">🎒 KOLEKSI SAYA</div>
+ <div class="sub">
+  Barang yang kamu menangkan bisa dilelang kembali.
+ </div>
+</div>
+
+<div class="grid" id="collectionGrid"></div>
+
+</section>
+
+
+<section id="search" class="page">
+
+<div class="card">
+
+ <div class="title">🔎 CARI ORANG</div>
+
+ <div class="sub">
+  Cari akun lain yang tersimpan di perangkat ini.
+  Yang ditampilkan hanya profil publik.
+ </div>
+
+ <div class="searchBox">
+  <input id="searchInput"
+   maxlength="18"
+   placeholder="Cari nama pengguna...">
+  <button onclick="searchUser()">CARI</button>
+ </div>
+
+</div>
+
+<div class="card searchResult" id="searchResult">
+
+ <div class="empty">
+  Ketik nama pengguna untuk mencari.
+ </div>
+
+</div>
+
+</section>
+
+
+<section id="profile" class="page">
+
+<div class="card">
+
+ <div class="profileHero">
+
+  <div class="profileAvatar" id="profileAvatar">😎</div>
+
+  <div class="profileName" id="profileName">Faiz</div>
+
+  <div class="profileTag">Kolektor FAZZXXY</div>
+
+ </div>
+
+ <div class="editBox">
+
+  <div class="editLabel">NAMA PROFIL</div>
+
+  <input id="nameInput" maxlength="18"
+   placeholder="Nama kamu">
+
+  <div class="editLabel" style="margin-top:12px">
+   BIO
+  </div>
+
+  <textarea id="bioInput" maxlength="100"
+   placeholder="Ceritakan sedikit tentang kamu..."></textarea>
+
+  <div class="editLabel" style="margin-top:12px">
+   PILIH AVATAR
+  </div>
+
+  <div class="avatarChoices">
+
+   <button class="avatarChoice selected"
+    onclick="chooseAvatar('😎',this)">😎</button>
+
+   <button class="avatarChoice"
+    onclick="chooseAvatar('🤓',this)">🤓</button>
+
+   <button class="avatarChoice"
+    onclick="chooseAvatar('😈',this)">😈</button>
+
+   <button class="avatarChoice"
+    onclick="chooseAvatar('😂',this)">😂</button>
+
+   <button class="avatarChoice"
+    onclick="chooseAvatar('🤑',this)">🤑</button>
+
+   <button class="avatarChoice"
+    onclick="chooseAvatar('🤠',this)">🤠</button>
+
+   <button class="avatarChoice"
+    onclick="chooseAvatar('🥶',this)">🥶</button>
+
+   <button class="avatarChoice"
+    onclick="chooseAvatar('👑',this)">👑</button>
+
+   <button class="avatarChoice"
+    onclick="chooseAvatar('👽',this)">👽</button>
+    
+       <button class="avatarChoice"
+    onclick="chooseAvatar('😹',this)">😹</button>
+    
+       <button class="avatarChoice"
+    onclick="chooseAvatar('🌊',this)">🌊</button>
+    
+       <button class="avatarChoice"
+    onclick="chooseAvatar('🇦🇱',this)">🇦🇱</button>
+    
+      <button class="avatarChoice"
+    onclick="chooseAvatar('🐲',this)">🐲</button>
+    
+  </div>
+  
+  <button class="saveProfile" onclick="saveProfile()">
+   💾 SIMPAN PROFIL
+  </button>
+
+ </div>
+</div>
+
+
+<div class="card">
+
+ <div class="title">✨ PAMERAN KOLEKSI</div>
+
+ <div class="sub">
+  Barang yang dipilih di sini dapat dilihat
+  oleh akun lain.
+ </div>
+
+ <div class="showcaseGrid" id="showcaseGrid"></div>
+
+ <button class="addShow" onclick="openShowcasePicker()">
+  ➕ TAMBAH BARANG
+ </button>
+
+</div>
+
+
+<div class="card" id="showcasePicker" style="display:none">
+
+ <div class="title">🎁 PILIH BARANG</div>
+
+ <div class="pickGrid" id="pickGrid"></div>
+
+</div>
+
+
+<div class="card">
+ <button class="logoutBtn" onclick="logout()">
+  🚪 KELUAR DARI AKUN
+ </button>
+</div>
+
+</section>
+
+
+<div class="toast" id="toast"></div>
+
+</div>
+
+<script>
+
+const items=[  
+
+/* =========================
+   LEGENDARY
+========================= */
+
+{name:"UFO",icon:"🛸",rarity:"MYTHIC",price:5000000,desc:"UFO terbang."}, {name:"pesawat",icon:"✈️",rarity:"MYTHIC",price:2000000,desc:"pesawat terbang langka."}, 
+
+/* =========================
+   LEGENDARY
+========================= */
+
+ {name:"Mobil Sport",icon:"🏎️",rarity:"LEGENDARY",price:800000,desc:"Mobil sport langka."},
+{name:"kapal",icon:"🛥️",rarity:"LEGENDARY",price:650000,desc:"kapal kecil."},
+ {name:"Motor Sport",icon:"🏍️",rarity:"LEGENDARY",price:600000,desc:"Motor sport edisi terbatas."},
+{name:"katana",icon:"⚔️",rarity:"LEGENDARY",price:500000,desc:"katana legendary."}, 
+ {name:"PC Gaming",icon:"🖥️",rarity:"LEGENDARY",price:450000,desc:"PC gaming performa tinggi."},
+ {name:"Laptop Gaming",icon:"💻",rarity:"LEGENDARY",price:400000,desc:"Laptop gaming premium."},
+ {name:"Drone Pro",icon:"🚁",rarity:"LEGENDARY",price:350000,desc:"Drone profesional."},
+ {name:"Smartphone Flagship",icon:"📱",rarity:"LEGENDARY",price:300000,desc:"Smartphone flagship."},
+ {name:"Console Next Gen",icon:"🎮",rarity:"LEGENDARY",price:275000,desc:"Console generasi terbaru."},
+ 
+ /* =========================
+   EPIC
+========================= */
+
+ {name:"Kamera Digital",icon:"📷",rarity:"EPIC",price:150000,desc:"Kamera digital."},
+ {name:"Arcade Mini",icon:"🕹️",rarity:"EPIC",price:130000,desc:"Arcade mini."},
+ {name:"Headphone Premium",icon:"🎧",rarity:"EPIC",price:125000,desc:"Headphone premium."},
+{name:"Smartwatch",icon:"⌚",rarity:"EPIC",price:110000,desc:"Smartwatch modern."},
+ {name:"Keyboard Mechanical",icon:"⌨️",rarity:"EPIC",price:95000,desc:"Keyboard mechanical."},
+ 
+ /* =========================
+   RARE
+========================= */
+ 
+ {name:"JAS putih",icon:"🥼",rarity:"RARE",price:80000,desc:"jas putih mewah."},
+ {name:"Sepatu Limited",icon:"👟",rarity:"RARE",price:75000,desc:"Sepatu edisi terbatas."},
+{name:"Gitar",icon:"🎸",rarity:"RARE",price:65000,desc:"Gitar elektrik."},
+ {name:"Tas Premium",icon:"🎒",rarity:"RARE",price:55000,desc:"Tas premium."},
+ {name:"buku tulis",icon:"📚",rarity:"RARE",price:50000,desc:"buku tulis."}, 
+{name:"Kacamata",icon:"🕶️",rarity:"RARE",price:45000,desc:"Kacamata keren."},
+ {name:"Mouse Gaming",icon:"🖱️",rarity:"RARE",price:40000,desc:"Mouse gaming."},
+ 
+ /* =========================
+   BASSIC
+========================= */
+
+{name:"tong sampah",icon:"🗑️",rarity:"BASSIC",price:10000,desc:"tong sampah."}, {name:"kertas",icon:"📄",rarity:"BASSIC",price:8000,desc:"kertas tulis."},
+{name:"plaster bekas",icon:"🩹",rarity:"BASSIC",price:5000,desc:"plaster bekas luka."},
+{name:"permen",icon:"🍬",rarity:"BASSIC",price:2000,desc:"permen pink."}
+
+];
+
+const bots=[
+ {name:"Andi",avatar:"😎",style:"normal"},
+ {name:"Budi",avatar:"🙂",style:"pelan"},
+ {name:"Rizky",avatar:"😏",style:"berani"},
+ {name:"Dimas",avatar:"🤓",style:"pelan"},
+ {name:"Fajar",avatar:"😂",style:"normal"},
+ {name:"deny",avatar:"🤩",style:"normal"},
+ {name:"roy",avatar:"😁",style:"normal"},
+ {name:"bambang",avatar:"👽",style:"berani"},
+ {name:"Raka",avatar:"😈",style:"berani"}
+];
+
+
+/* =========================
+   AKUN
+========================= */
+
+let users={};
+let currentUser=null;
+let loginMode=false;
+
+function loadUsers(){
+
+ try{
+  users=JSON.parse(
+   localStorage.getItem("FAZZXXY_USERS")||"{}"
+  );
+ }catch(e){
+  users={};
+ }
+
+}
+
+function saveUsers(){
+ localStorage.setItem(
+  "FAZZXXY_USERS",
+  JSON.stringify(users)
+ );
+}
+
+function setCurrentUser(name){
+
+ currentUser=name;
+
+ localStorage.setItem(
+  "FAZZXXY_CURRENT",
+  name
+ );
+
+}
+
+function clearCurrentUser(){
+
+ currentUser=null;
+
+ localStorage.removeItem(
+  "FAZZXXY_CURRENT"
+ );
+
+}
+
+
+/* =========================
+   DATA AKUN
+========================= */
+
+function defaultUser(name,password){
+
+ return {
+  name:name,
+  password:password,
+
+  bio:"Kolektor BIASA.",
+
+  avatar:"😎",
+
+  balance:1000000,
+  wins:0,
+  spent:0,
+
+  collection:[],
+  showcase:[]
+ };
+
+}
+
+
+/* =========================
+   LOGIN MODE
+========================= */
+
+function toggleLoginMode(){
+
+ loginMode=!loginMode;
+
+ document.getElementById(
+  "loginTitle"
+ ).innerText=
+  loginMode
+  ?"BUAT AKUN BARU"
+  :"MASUK KE AKUN";
+
+ document.getElementById(
+  "loginSubmit"
+ ).innerText=
+  loginMode
+  ?"✨ BUAT AKUN"
+  :"🔐 MASUK";
+
+ document.getElementById(
+  "modeButton"
+ ).innerText=
+  loginMode
+  ?"↩️ SUDAH PUNYA AKUN"
+  :"➕ BUAT AKUN BARU";
+
+ document.getElementById(
+  "loginError"
+ ).innerText="";
+
+}
+
+function submitLogin(){
+
+ const name=
+  document.getElementById(
+   "loginName"
+  ).value.trim();
+
+ const password=
+  document.getElementById(
+   "loginPassword"
+  ).value;
+
+ const error=
+  document.getElementById(
+   "loginError"
+  );
+
+ if(!name||!password){
+
+  error.innerText=
+   "Nama dan password wajib diisi.";
+
+  return;
+
+ }
+
+ if(name.length<3){
+
+  error.innerText=
+   "Nama minimal 3 karakter.";
+
+  return;
+
+ }
+
+ if(loginMode){
+
+  if(users[name]){
+
+   error.innerText=
+    "❌ Nama tersebut sudah digunakan.";
+
+   return;
+
+  }
+
+  users[name]=
+   defaultUser(
+    name,
+    password
+   );
+
+  saveUsers();
+
+  setCurrentUser(name);
+
+  error.innerText="";
+
+  openApp();
+
+  toast("🎉 Akun berhasil dibuat!");
+
+ }else{
+
+  if(!users[name]){
+
+   error.innerText=
+    "❌ Akun tidak ditemukan.";
+
+   return;
+
+  }
+
+  if(users[name].password!==password){
+
+   error.innerText=
+    "❌ Password salah.";
+
+   return;
+
+  }
+
+  setCurrentUser(name);
+
+  error.innerText="";
+
+  openApp();
+
+ }
+
+}
+
+
+function openApp(){
+
+ document.getElementById(
+  "loginScreen"
+ ).style.display="none";
+
+ loadCurrentData();
+
+}
+
+
+function logout(){
+
+ saveCurrentData();
+
+ clearCurrentUser();
+
+ stopAuctionTimer();
+ stopNextTimer();
+
+ document.getElementById(
+  "loginScreen"
+ ).style.display="flex";
+
+ document.getElementById(
+  "loginName"
+ ).value="";
+
+ document.getElementById(
+  "loginPassword"
+ ).value="";
+
+ loginMode=false;
+
+ document.getElementById(
+  "loginTitle"
+ ).innerText="MASUK KE AKUN";
+
+ document.getElementById(
+  "loginSubmit"
+ ).innerText="🔐 MASUK";
+
+ document.getElementById(
+  "modeButton"
+ ).innerText="➕ BUAT AKUN BARU";
+
+ toast("🚪 Berhasil keluar.");
+
+}
+
+
+/* =========================
+   DATA AKTIF
+========================= */
+
+let balance=1000000;
+let wins=0;
+let spent=0;
+let collection=[];
+let showcase=[];
+let profileName="";
+let profileAvatar="😎";
+let profileBio="Kolektor FAZZXXY.";
+let selectedAvatar="😎";
+
+
+function loadCurrentData(){
+
+ const u=users[currentUser];
+
+ if(!u)return;
+
+ balance=u.balance;
+ wins=u.wins;
+ spent=u.spent;
+
+ collection=Array.isArray(u.collection)
+  ?u.collection:[];
+
+ showcase=Array.isArray(u.showcase)
+  ?u.showcase:[];
+
+ profileName=u.name;
+ profileAvatar=u.avatar||"😎";
+ profileBio=u.bio||"Kolektor FAZZXXY.";
+ selectedAvatar=profileAvatar;
+
+ updateBalance();
+ renderItems();
+ renderCollection();
+ renderProfile();
+
+ if(!running){
+
+  setTimeout(
+   startAuction,
+   300
+  );
+
+ }
+
+}
+
+
+function saveCurrentData(){
+
+ if(!currentUser||!users[currentUser])
+  return;
+
+ users[currentUser].name=
+  profileName;
+
+ users[currentUser].avatar=  
+  profileAvatar; 
+
+ users[currentUser].bio=
+  profileBio;
+
+ users[currentUser].balance=
+  balance;
+
+ users[currentUser].wins=
+  wins;
+
+ users[currentUser].spent=
+  spent;
+
+ users[currentUser].collection=
+  collection;
+
+ users[currentUser].showcase=
+  showcase;
+
+ saveUsers();
+
+}
+
+
+/* =========================
+   UANG
+========================= */
+
+function money(value){
+
+ return "Rp"+
+ Number(value||0)
+ .toLocaleString("id-ID");
+
+}
+
+function updateBalance(){
+
+ document.getElementById("balance").innerText=
+  money(balance);
+
+ document.getElementById("wins").innerText=
+  wins;
+
+ document.getElementById("count").innerText=
+  collection.length;
+
+ document.getElementById("spent").innerText=
+  money(spent);
+
+}
+
+
+/* =========================
+   TOAST
+========================= */
+
+function toast(text){
+
+ const box=
+  document.getElementById("toast");
+
+ box.innerText=text;
+
+ box.style.transform=
+  "translate(-50%,0)";
+
+ clearTimeout(box.toastTimer);
+
+ box.toastTimer=
+  setTimeout(function(){
+
+   box.style.transform=
+    "translate(-50%,130px)";
+
+  },1800);
+
+}
+
+
+/* =========================
+   NAVIGASI
+========================= */
+
+function showPage(page){
+
+ document.querySelectorAll(".page")
+ .forEach(function(el){
+  el.classList.remove("active");
+ });
+
+ document.querySelectorAll(".nav button")
+ .forEach(function(el){
+  el.classList.remove("active");
+ });
+
+ document.getElementById(page)
+ .classList.add("active");
+
+ const ids={
+  auction:"auctionBtn",
+  items:"itemsBtn",
+  collection:"collectionBtn",
+  search:"searchBtn",
+  profile:"profileBtn"
+ };
+
+ document.getElementById(ids[page])
+ .classList.add("active");
+
+ if(page==="items")
+  renderItems();
+
+ if(page==="collection")
+  renderCollection();
+
+ if(page==="profile")
+  renderProfile();
+
+}
+
+
+/* =========================
+   AUCTION DATA
+========================= */
+
+let currentItem=null;
+let currentPrice=0;
+let currentBidder="Belum ada";
+let currentAvatar="";
+let seconds=30;
+let round=0;
+let running=false;
+let auctionMode="normal";
+let resaleIndex=-1;
+let botDelay=4;
+let auctionTimer=null;
+let nextTimer=null;
+let processingFinish=false;
+
+
+function updateAuction(){
+
+ document.getElementById("price").innerText=
+  money(currentPrice);
+
+ document.getElementById("highest").innerText=
+  currentBidder;
+
+ document.getElementById("time").innerText=
+  seconds+" detik";
+
+ document.getElementById("bar").style.width=
+  ((seconds/30)*100)+"%";
+
+}
+
+
+function stopAuctionTimer(){
+
+ if(auctionTimer!==null){
+
+  clearInterval(auctionTimer);
+  auctionTimer=null;
+
+ }
+
+}
+
+function stopNextTimer(){
+
+ if(nextTimer!==null){
+
+  clearInterval(nextTimer);
+  nextTimer=null;
+
+ }
+
+}
+
+
+function setBidControls(show){
+
+ document.getElementById(
+  "bidControls"
+ ).style.display=
+  show?"block":"none";
+
+}
+
+function showBid(name,avatar,price){
+
+ const players=
+  document.getElementById("players");
+
+ const history=
+  document.getElementById("history");
+
+ players.innerHTML=`
+  <div class="participant">
+   <div class="person">
+    <div class="avatar">${avatar}</div>
+    <span>${name}</span>
+   </div>
+   <b>${money(price)}</b>
+  </div>
+ `;
+
+ if(history.innerHTML.includes("Belum ada"))
+  history.innerHTML="";
+
+ history.innerHTML=`
+  <div class="history">
+   <div class="person">
+    <div class="avatar">${avatar}</div>
+    <span>${name}</span>
+   </div>
+   <b>${money(price)}</b>
+  </div>
+ `+history.innerHTML;
+
+ updateAuction();
+
+}
+
+
+function resetAuctionTimer(){
+
+ if(!running)return;
+
+ seconds=30;
+
+ botDelay=
+  Math.floor(Math.random()*5)+3;
+
+ updateAuction();
+
+}
+
+
+function botShouldBid(bot){
+
+ if(!currentItem)return false;
+
+ const ratio=
+  currentPrice/currentItem.price;
+
+ let chance=.60;
+
+ if(ratio>1.10)chance=.52;
+ if(ratio>1.25)chance=.42;
+ if(ratio>1.50)chance=.30;
+ if(ratio>2)chance=.15;
+
+ if(bot.style==="berani")chance+=.08;
+ if(bot.style==="pelan")chance-=.10;
+
+ chance+=(Math.random()-.5)*.10;
+
+ return Math.random()<chance;
+
+}
+
+
+function botBid(){
+
+ if(!running)return;
+
+ const bot=
+  bots[Math.floor(
+   Math.random()*bots.length
+  )];
+
+ if(!botShouldBid(bot))
+  return;
+
+ const increases=[
+  2000,3000,5000,7500,10000
+ ];
+
+ let increase=
+  increases[Math.floor(
+   Math.random()*increases.length
+  )];
+
+ if(auctionMode==="resale"){
+
+  increase=Math.min(
+   increase,
+   Math.max(
+    2000,
+    Math.floor(currentItem.price*.05)
+   )
+  );
+
+ }
+
+ const newPrice=
+  currentPrice+increase;
+
+ const maximum=
+  currentItem.price*
+  (auctionMode==="resale"?1.80:2.00);
+
+ if(newPrice>maximum)
+  return;
+
+ currentPrice=newPrice;
+ currentBidder=bot.name;
+ currentAvatar=bot.avatar;
+
+ showBid(
+  bot.name,
+  bot.avatar,
+  currentPrice
+ );
+
+ resetAuctionTimer();
+
+}
+
+
+function startAuctionTimer(){
+
+ stopAuctionTimer();
+
+ seconds=30;
+ updateAuction();
+
+ auctionTimer=
+  setInterval(function(){
+
+   if(!running){
+
+    stopAuctionTimer();
+    return;
+
+   }
+
+   seconds--;
+
+   if(seconds<0)
+    seconds=0;
+
+   updateAuction();
+
+   if(seconds<=0){
+
+    stopAuctionTimer();
+    finishAuction();
+    return;
+
+   }
+
+   botDelay--;
+
+   if(botDelay<=0){
+
+    botBid();
+
+    botDelay=
+     Math.floor(Math.random()*5)+3;
+
+   }
+
+  },1000);
+
+}
+
+
+/* =========================
+   PEMAIN MENAWAR
+========================= */
+
+function playerBid(){
+
+ if(!running){
+
+  toast("⏱️ Lelang sudah selesai!");
+  return;
+
+ }
+
+ if(auctionMode==="resale"){
+
+  toast("🚫 Kamu tidak bisa menawar barang sendiri!");
+  return;
+
+ }
+
+ const input=
+  document.getElementById("bidInput");
+
+ const value=Number(input.value);
+
+ if(!value){
+
+  toast("Masukkan tawaran!");
+  return;
+
+ }
+
+ if(value<=currentPrice){
+
+  toast("❌ Tawaran harus lebih tinggi!");
+  return;
+
+ }
+
+ if(value>balance){
+
+  toast("💸 Saldo tidak cukup!");
+  return;
+
+ }
+
+ currentPrice=value;
+ currentBidder="Kamu";
+ currentAvatar=profileAvatar;
+
+ showBid(
+  "Kamu",
+  profileAvatar,
+  currentPrice
+ );
+
+ resetAuctionTimer();
+
+ input.value="";
+
+ toast("🔥 Tawaran diterima!");
+
+}
+
+
+function quickBid(amount){
+
+ if(!running){
+
+  toast("⏱️ Lelang selesai!");
+  return;
+
+ }
+
+ if(auctionMode==="resale"){
+
+  toast("🚫 Tidak bisa menawar barang sendiri!");
+  return;
+
+ }
+
+ const value=currentPrice+amount;
+
+ if(value>balance){
+
+  toast("💸 Saldo tidak cukup!");
+  return;
+
+ }
+
+ currentPrice=value;
+ currentBidder="Kamu";
+ currentAvatar=profileAvatar;
+
+ showBid(
+  "Kamu",
+  profileAvatar,
+  currentPrice
+ );
+
+ resetAuctionTimer();
+
+ toast("🔥 Tawaran cepat!");
+
+}
+
+
+/* =========================
+   SELESAI
+========================= */
+
+function finishAuction(){
+
+ if(!running||processingFinish)
+  return;
+
+ processingFinish=true;
+ running=false;
+
+ stopAuctionTimer();
+
+ document.getElementById("status")
+ .innerText="Selesai";
+
+ setBidControls(false);
+
+ document.getElementById("result")
+ .style.display="block";
+
+
+ if(auctionMode==="normal"){
+
+  if(currentBidder==="Kamu"){
+
+   balance-=currentPrice;
+   wins++;
+   spent+=currentPrice;
+
+   collection.push({
+
+    id:
+     Date.now()+Math.random(),
+
+    name:currentItem.name,
+    icon:currentItem.icon,
+    rarity:currentItem.rarity,
+    price:currentPrice
+
+   });
+
+   document.getElementById("resultIcon")
+   .innerText="🏆";
+
+   document.getElementById("resultTitle")
+   .innerText="KAMU MENANG!";
+
+   document.getElementById("resultText")
+   .innerText=
+    currentItem.name+
+    " masuk ke koleksi.";
+
+  }
+  else if(currentBidder!=="Belum ada"){
+
+   document.getElementById("resultIcon")
+   .innerText="🤖";
+
+   document.getElementById("resultTitle")
+   .innerText=
+    currentBidder+" MENANG";
+
+   document.getElementById("resultText")
+   .innerText=
+    currentBidder+
+    " memenangkan "+
+    currentItem.name+
+    " seharga "+
+    money(currentPrice);
+
+  }
+  else{
+
+   document.getElementById("resultIcon")
+   .innerText="😴";
+
+   document.getElementById("resultTitle")
+   .innerText="TIDAK ADA PEMENANG";
+
+   document.getElementById("resultText")
+   .innerText=
+    "Tidak ada tawaran.";
+
+  }
+
+ }
+
+
+ if(auctionMode==="resale"){
+
+  const sold=
+   collection[resaleIndex];
+
+  if(
+   sold&&
+   currentBidder!=="Belum ada"
+  ){
+
+   balance+=currentPrice;
+
+   collection.splice(
+    resaleIndex,
+    1
+   );
+
+   showcase=
+    showcase.filter(function(id){
+
+     return String(id)!==
+      String(sold.id);
+
+    });
+
+   document.getElementById("resultIcon")
+   .innerText="💰";
+
+   document.getElementById("resultTitle")
+   .innerText="BARANG TERJUAL!";
+
+   document.getElementById("resultText")
+   .innerText=
+    sold.name+
+    " terjual kepada "+
+    currentBidder+
+    " seharga "+
+    money(currentPrice);
+
+  }
+  else{
+
+   document.getElementById("resultIcon")
+   .innerText="📦";
+
+   document.getElementById("resultTitle")
+   .innerText="BELUM TERJUAL";
+
+   document.getElementById("resultText")
+   .innerText=
+    "Tidak ada bot yang membeli.";
+
+  }
+
+ }
+
+ updateBalance();
+ renderCollection();
+ renderProfile();
+ saveCurrentData();
+
+ startNextAuction();
+
+}
+
+
+/* =========================
+   LELANG BERIKUTNYA
+========================= */
+
+function startNextAuction(){
+
+ stopNextTimer();
+
+ let count=5;
+
+ const el=
+  document.getElementById("nextCountdown");
+
+ el.innerText=
+  "🔨 Lelang berikutnya dalam "+
+  count+" detik";
+
+ nextTimer=
+  setInterval(function(){
+
+   count--;
+
+   el.innerText=
+    "🔨 Lelang berikutnya dalam "+
+    count+" detik";
+
+   if(count<=0){
+
+    stopNextTimer();
+    nextAuction();
+
+   }
+
+  },1000);
+
+}
+
+
+function nextAuction(){
+
+ stopAuctionTimer();
+ stopNextTimer();
+
+ processingFinish=false;
+ auctionMode="normal";
+ resaleIndex=-1;
+
+ document.getElementById("result")
+ .style.display="none";
+
+ startAuction();
+
+}
+
+
+/* =========================
+   MULAI LELANG
+========================= */
+
+function startAuction(){
+
+ stopAuctionTimer();
+ stopNextTimer();
+
+ processingFinish=false;
+ auctionMode="normal";
+ resaleIndex=-1;
+
+ currentItem=
+  items[Math.floor(
+   Math.random()*items.length
+  )];
+
+ currentPrice=currentItem.price;
+ currentBidder="Belum ada";
+ currentAvatar="";
+
+ running=true;
+ seconds=30;
+ round++;
+
+ botDelay=
+  Math.floor(Math.random()*5)+3;
+
+ setBidControls(true);
+
+ document.getElementById("result")
+ .style.display="none";
+
+ document.getElementById("itemIcon")
+ .innerText=currentItem.icon;
+
+ document.getElementById("itemName")
+ .innerText=currentItem.name;
+
+ document.getElementById("itemDesc")
+ .innerText=currentItem.desc;
+
+ document.getElementById("rarity")
+ .innerText=currentItem.rarity;
+
+ document.getElementById("round")
+ .innerText="Ronde #"+round;
+
+ document.getElementById("status")
+ .innerText="Berlangsung";
+
+ document.getElementById("highest")
+ .innerText="Belum ada";
+
+ document.getElementById("players")
+ .innerHTML=
+  '<div class="empty">Belum ada penawar</div>';
+
+ document.getElementById("history")
+ .innerHTML=
+  '<div class="empty">Belum ada tawaran</div>';
+
+ updateAuction();
+
+ startAuctionTimer();
+
+}
+
+
+/* =========================
+   LELANG ULANG
+========================= */
+
+function resellItem(index){
+
+ if(running){
+
+  toast("⏳ Tunggu lelang selesai!");
+  return;
+
+ }
+
+ const item=collection[index];
+
+ if(!item){
+
+  toast("Barang tidak ditemukan.");
+  return;
+
+ }
+
+ stopAuctionTimer();
+ stopNextTimer();
+
+ processingFinish=false;
+ auctionMode="resale";
+ resaleIndex=index;
+
+ currentItem={
+  name:item.name,
+  icon:item.icon,
+  rarity:item.rarity,
+  price:item.price,
+  desc:"Barang koleksimu sedang dilelang kembali."
+ };
+
+ currentPrice=Math.max(
+  10000,
+  Math.floor(item.price*.70)
+ );
+
+ currentBidder="Belum ada";
+ currentAvatar="";
+
+ running=true;
+ seconds=30;
+
+ setBidControls(false);
+
+ showPage("auction");
+
+ document.getElementById("result")
+ .style.display="none";
+
+ document.getElementById("itemIcon")
+ .innerText=item.icon;
+
+ document.getElementById("itemName")
+ .innerText=item.name;
+
+ document.getElementById("itemDesc")
+ .innerText=
+  "Barang milikmu sedang dilelang kembali.";
+
+ document.getElementById("rarity")
+ .innerText=item.rarity;
+
+ document.getElementById("round")
+ .innerText="🔁 LELANG ULANG";
+
+ document.getElementById("status")
+ .innerText="Barang kamu";
+
+ document.getElementById("highest")
+ .innerText="Belum ada";
+
+ document.getElementById("players")
+ .innerHTML=
+  '<div class="empty">Menunggu penawar...</div>';
+
+ document.getElementById("history")
+ .innerHTML=
+  '<div class="empty">Belum ada tawaran</div>';
+
+ botDelay=
+  Math.floor(Math.random()*4)+3;
+
+ updateAuction();
+ startAuctionTimer();
+
+ toast("🔨 Barangmu mulai dilelang!");
+
+}
+
+
+/* =========================
+   BARANG
+========================= */
+
+function renderItems(){
+
+ const grid=
+  document.getElementById("itemGrid");
+
+ grid.innerHTML="";
+
+ ["MYTHIC","LEGENDARY","EPIC","RARE","BASSIC"]
+ .forEach(function(rarity){
+
+  const title=
+   rarity==="MYTHIC"
+   ?"💎 MYTHIC":
+   rarity==="LEGENDARY"
+   ?"🏆 LEGENDARY":
+   rarity==="EPIC"
+   ?"🍀 EPIC":
+   rarity==="RARE"
+   ?"🪙 RARE":
+   "📀 BASSIC"
+     
+
+  grid.innerHTML+=`
+   <div class="sectionTitle">${title}</div>
+  `;
+
+  items.filter(function(item){
+   return item.rarity===rarity;
+  }).forEach(function(item){
+
+   grid.innerHTML+=`
+    <div class="box">
+     <div class="boxIcon">${item.icon}</div>
+     <div class="boxName">${item.name}</div>
+     <div class="boxSmall">
+      ${item.desc}<br><br>
+      Harga mulai: ${money(item.price)}
+     </div>
+    </div>
+   `;
+
+  });
+
+ });
+
+}
+
+
+/* =========================
+   KOLEKSI
+========================= */
+
+function renderCollection(){
+
+ const grid=
+  document.getElementById("collectionGrid");
+
+ if(collection.length===0){
+
+  grid.innerHTML=`
+   <div class="card" style="grid-column:1/-1">
+    <div class="empty">
+     🎒 Koleksi masih kosong.<br><br>
+     Menangkan lelang untuk mendapatkan barang.
+    </div>
+   </div>
+  `;
+
+  return;
+
+ }
+
+ grid.innerHTML="";
+
+ collection.forEach(function(item,index){
+
+  grid.innerHTML+=`
+   <div class="box">
+    <div class="boxIcon">${item.icon}</div>
+    <div class="boxName">${item.name}</div>
+    <div class="boxSmall">
+     ${item.rarity}<br>
+     Harga menang: ${money(item.price)}
+    </div>
+
+    <button class="sellBtn"
+     onclick="resellItem(${index})">
+     🔨 LELANGKAN LAGI
+    </button>
+   </div>
+  `;
+
+ });
+
+}
+
+/* =========================
+   PROFIL
+========================= */
+
+function renderProfile(){
+
+ document.getElementById("profileAvatar")
+ .innerText=profileAvatar;
+
+ document.getElementById("profileName")
+ .innerText=profileName;
+
+ document.getElementById("nameInput")
+ .value=profileName;
+
+ document.getElementById("bioInput")
+ .value=profileBio;
+
+ document.querySelectorAll(".avatarChoice")
+ .forEach(function(btn){
+
+  btn.classList.toggle(
+   "selected",
+   btn.innerText===profileAvatar
+  );
+
+ });
+
+ renderShowcase();
+
+}
+
+
+function chooseAvatar(avatar,button){
+
+ selectedAvatar=avatar;
+
+ document.querySelectorAll(".avatarChoice")
+ .forEach(function(btn){
+  btn.classList.remove("selected");
+ });
+
+ if(button)
+  button.classList.add("selected");
+
+}
+
+
+function saveProfile(){
+
+ const name=
+  document.getElementById("nameInput")
+  .value.trim();
+
+ const bio=
+  document.getElementById("bioInput")
+  .value.trim();
+
+ if(!name){
+
+  toast("Nama tidak boleh kosong!");
+  return;
+
+ }
+
+ /*
+  Kalau nama diganti,
+  akun harus dipindahkan ke
+  nama baru.
+ */
+
+ if(name!==currentUser){
+
+  if(users[name]){
+
+   toast("❌ Nama tersebut sudah dipakai!");
+   return;
+
+  }
+
+  const old=currentUser;
+
+  users[name]=users[old];
+
+  users[name].name=name;
+
+  delete users[old];
+
+  setCurrentUser(name);
+
+  currentUser=name;
+
+ }
+
+ profileName=name;
+ profileBio=bio||"Kolektor FAZZXXY.";
+ profileAvatar=selectedAvatar;
+
+ saveCurrentData();
+ renderProfile();
+
+ toast("💾 Profil disimpan!");
+
+}
+
+
+/* =========================
+   PAMERAN
+========================= */
+
+function renderShowcase(){
+
+ const grid=
+  document.getElementById("showcaseGrid");
+
+ showcase=
+  showcase.filter(function(id){
+
+   return collection.some(function(item){
+
+    return String(item.id)===String(id);
+
+   });
+
+  });
+
+ if(showcase.length===0){
+
+  grid.innerHTML=`
+   <div class="empty" style="grid-column:1/-1">
+    ✨ Belum ada barang yang dipamerkan.
+   </div>
+  `;
+
+  return;
+
+ }
+
+ grid.innerHTML="";
+
+ showcase.forEach(function(id){
+
+  const item=
+   collection.find(function(x){
+
+    return String(x.id)===String(id);
+
+   });
+
+  if(!item)return;
+
+  grid.innerHTML+=`
+   <div class="showItem">
+
+    <button class="removeShow"
+     onclick="removeShowcase('${id}')">×</button>
+
+    <div class="showItemIcon">${item.icon}</div>
+
+    <div class="showItemName">${item.name}</div>
+
+    <div class="showItemRarity">${item.rarity}</div>
+
+   </div>
+  `;
+
+ });
+
+ saveCurrentData();
+
+}
+
+
+function openShowcasePicker(){
+
+ const picker=
+  document.getElementById("showcasePicker");
+
+ picker.style.display=
+  picker.style.display==="none"
+  ?"block":"none";
+
+ renderShowcasePicker();
+
+}
+
+
+function renderShowcasePicker(){
+
+ const grid=
+  document.getElementById("pickGrid");
+
+ if(collection.length===0){
+
+  grid.innerHTML=`
+   <div class="empty" style="grid-column:1/-1">
+    Belum ada barang.
+   </div>
+  `;
+
+  return;
+
+ }
+
+ grid.innerHTML="";
+
+ collection.forEach(function(item){
+
+  const exists=
+   showcase.some(function(id){
+
+    return String(id)===String(item.id);
+
+   });
+
+  grid.innerHTML+=`
+   <div class="pickItem">
+
+    <div class="pickIcon">${item.icon}</div>
+
+    <div class="pickInfo">
+     <div class="pickName">${item.name}</div>
+     <div class="pickRarity">${item.rarity}</div>
+    </div>
+
+    <button class="pickButton"
+     onclick="toggleShowcase('${item.id}')">
+     ${exists?"HAPUS":"PAMER"}
+    </button>
+
+   </div>
+  `;
+
+ });
+
+}
+
+
+function toggleShowcase(id){
+
+ const index=
+  showcase.findIndex(function(x){
+
+   return String(x)===String(id);
+
+  });
+
+ if(index>=0){
+
+  showcase.splice(index,1);
+  toast("❌ Barang dilepas.");
+
+ }else{
+
+  if(showcase.length>=6){
+
+   toast("⭐ Maksimal 6 barang.");
+   return;
+
+  }
+
+  showcase.push(id);
+  toast("✨ Barang dipamerkan!");
+
+ }
+
+ saveCurrentData();
+ renderShowcase();
+ renderShowcasePicker();
+
+}
+
+
+function removeShowcase(id){
+
+ showcase=
+  showcase.filter(function(x){
+
+   return String(x)!==String(id);
+
+  });
+
+ saveCurrentData();
+ renderShowcase();
+ renderShowcasePicker();
+
+ toast("❌ Barang dilepas.");
+
+}
+
+
+/* =========================
+   🔎 PENCARIAN ORANG
+========================= */
+
+function searchUser(){
+
+ const query=
+  document.getElementById("searchInput")
+  .value.trim().toLowerCase();
+
+ const result=
+  document.getElementById("searchResult");
+
+ if(!query){
+
+  result.innerHTML=`
+   <div class="empty">
+    Masukkan nama yang ingin dicari.
+   </div>
+  `;
+
+  return;
+  
+ }
+
+ const foundName=
+  Object.keys(users).find(function(name){
+
+   return name.toLowerCase()===query;
+
+  });
+
+ if(!foundName){
+
+  result.innerHTML=`
+   <div class="empty">
+    ❌ Akun "${query}" tidak ditemukan.
+   </div>
+  `;
+
+  return;
+  
+ }
+
+ /*
+  Jangan tampilkan password,
+  saldo, atau koleksi pribadi.
+ */
+
+ const user=users[foundName];
+
+ const publicItems=
+  Array.isArray(user.showcase)
+  ?user.showcase
+  :[];
+
+ let showcaseHTML="";
+
+ publicItems.forEach(function(id){
+
+  const item=
+   Array.isArray(user.collection)
+   ?user.collection.find(function(x){
+
+      return String(x.id)===String(id);
+
+     })
+   :null;
+
+  if(!item)return;
+
+  showcaseHTML+=`
+   <div class="publicItem">
+    <div>${item.icon}</div>
+    <b>${item.name}</b>
+    <small>${item.rarity}</small>
+   </div>
+  `;
+
+ });
+
+ if(!showcaseHTML){
+
+  showcaseHTML=`
+   <div class="empty" style="grid-column:1/-1">
+    🎒 Belum ada koleksi yang dipamerkan.
+   </div>
+  `;
+
+ }
+
+ result.innerHTML=`
+
+  <div class="publicProfile">
+
+   <div class="publicAvatar">
+    ${user.avatar||"😎"}
+   </div>
+
+   <div class="publicName">
+    ${escapeHTML(user.name)}
+   </div>
+
+   <div class="publicBio">
+    ${escapeHTML(user.bio||"Kolektor FAZZXXY.")}
+   </div>
+
+  </div>
+
+  <div class="infoRow">
+   <span>Barang dipamerkan</span>
+   <b>${publicItems.length}</b>
+  </div>
+
+  <div class="publicShowcase">
+   ${showcaseHTML}
+  </div>
+
+ `;
+
+}
+
+
+function escapeHTML(text){
+
+ return String(text)
+  .replaceAll("&","&amp;")
+  .replaceAll("<","&lt;")
+  .replaceAll(">","&gt;")
+  .replaceAll('"',"&quot;")
+  .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================
+   START APLIKASI
+========================= */
+
+loadUsers();
+
+const savedUser=
+ localStorage.getItem(
+  "FAZZXXY_CURRENT"
+ );
+
+if(
+ savedUser&&
+ users[savedUser]
+){
+
+ currentUser=savedUser;
+
+ document.getElementById(
+  "loginScreen"
+ ).style.display="none";
+
+ loadCurrentData();
+
+}else{
+
+ document.getElementById(
+  "loginScreen"
+ ).style.display="flex";
+
+}
+
+
+/* =========================
+   AUTOSAVE
+========================= */
+
+setInterval(function(){
+
+ if(currentUser){
+
+  saveCurrentData();
+
+ }
+
+},3000);
+
+
+window.addEventListener(
+ "beforeunload",
+ function(){
+
+  saveCurrentData();
+  stopAuctionTimer();
+  stopNextTimer();
+
+ } 
+);
+
+console.log(
+ "FAZZXXY AUCTION READY - LOCAL ACCOUNT SYSTEM"
+);
+
+const bgMusic = document.getElementById("bgMusic");
+
+function toggleMusic(){
+  if(bgMusic.paused){
+    bgMusic.play();
+    document.getElementById("musicBtn").innerText="🔊 MUSIK ON";
+  }else{
+    bgMusic.pause();
+    document.getElementById("musicBtn").innerText="🔇 MUSIK OFF";
+  }
+}
+
+</script>
+
+</body>
+</html>
