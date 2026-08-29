@@ -3066,11 +3066,11 @@ function toggleMusic(){
 
 function eventBonus2JT(){
 
-  const EVENT_KEY = "FAZZXXY_EVENT_BONUS_2JT";
+  const EVENT_KEY = "FAZZXXY_EVENT_BONUS_5JT";
 
   // Cek apakah event sudah pernah dijalankan
   if(localStorage.getItem(EVENT_KEY)){
-    alert("🎁 Event bonus Rp2.000.000 sudah pernah diberikan.");
+    alert("🎁 Event bonus Rp5.000.000 sudah pernah diberikan.");
     return;
   }
 
@@ -3083,9 +3083,9 @@ function eventBonus2JT(){
 
     if(!users[name]) return;
 
-    // Tambahkan Rp2.000.000
+    // Tambahkan Rp5.000.000
     users[name].balance =
-      Number(users[name].balance || 0) + 2000000;
+      Number(users[name].balance || 0) + 5000000;
 
     jumlahAkun++;
   });
@@ -3104,7 +3104,7 @@ function eventBonus2JT(){
   alert(
     "🎉 EVENT BONUS!\n\n" +
     "Setiap akun mendapatkan:\n" +
-    "💰 Rp2.000.000\n\n" +
+    "💰 Rp5.000.000\n\n" +
     "👤 Total akun: " + jumlahAkun
   );
 }
