@@ -383,8 +383,8 @@ background:#4da3ff;color:white;font-weight:bold;">
  <button id="collectionBtn" onclick="showPage('collection')">🎒<br>KOLEKSI</button>       
  <button id="searchBtn" onclick="showPage('search')">🔎<br>CARI</button>
  <button id="profileBtn" onclick="showPage('profile')">👤<br>PROFIL</button>
- <button onclick="eventBonus5JT()">
-  🎉 KLAIM BONUS Rp5 JUTA
+ <button onclick="eventBonus2JT()">
+  🎉 KLAIM BONUS Rp2 JUTA
 </button>
 </div>
 
@@ -3061,16 +3061,16 @@ function toggleMusic(){
 }
 
 /* =========================================
-   🎉 EVENT BONUS RP5 JUTA UNTUK SEMUA AKUN
+   🎉 EVENT BONUS RP2 JUTA UNTUK SEMUA AKUN
    ========================================= */
 
-function eventBonus5JT(){
+function eventBonus2JT(){
 
-  const EVENT_KEY = "FAZZXXY_EVENT_BONUS_5JT";
+  const EVENT_KEY = "FAZZXXY_EVENT_BONUS_2JT";
 
   // Cek apakah event sudah pernah dijalankan
   if(localStorage.getItem(EVENT_KEY)){
-    alert("🎁 Event bonus Rp5.000.000 sudah pernah diberikan.");
+    alert("🎁 Event bonus Rp2.000.000 sudah pernah diberikan.");
     return;
   }
 
@@ -3083,9 +3083,9 @@ function eventBonus5JT(){
 
     if(!users[name]) return;
 
-    // Tambahkan Rp5.000.000
+    // Tambahkan Rp2.000.000
     users[name].balance =
-      Number(users[name].balance || 0) + 5000000;
+      Number(users[name].balance || 0) + 2000000;
 
     jumlahAkun++;
   });
@@ -3104,11 +3104,11 @@ function eventBonus5JT(){
   alert(
     "🎉 EVENT BONUS!\n\n" +
     "Setiap akun mendapatkan:\n" +
-    "💰 Rp5.000.000\n\n" +
+    "💰 Rp2.000.000\n\n" +
     "👤 Total akun: " + jumlahAkun
   );
-}
-
+ }
+ 
 </script>
 
 </body>
